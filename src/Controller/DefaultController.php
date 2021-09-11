@@ -13,6 +13,13 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class DefaultController extends AbstractController
 {
+    const COMPANIES = [
+        ['name' => 'Modas Loli', 'phone' => 954278325, 'email' => 'loli@correo.com', 'sector' => 'Textil'],
+        ['name' => 'Centro Estética Carmen', 'phone' => 954278325, 'email' => 'carmen@correo.com', 'sector' => 'Belleza'],
+        ['name' => 'Restaurante Apolo', 'phone' => 954278325, 'email' => 'apolo@correo.com', 'sector' => 'Hostelería'],
+        ['name' => 'Clínica Márquez', 'phone' => 954278325, 'email' => 'marquez@correo.com', 'sector' => 'Salud'],        
+    ];
+
     /**
      * @Route("/default", name="default_index")
      * 
@@ -30,10 +37,8 @@ class DefaultController extends AbstractController
         // render() es un método heredado de AbstractController
         // que devuelve el contenido declarado en una plantilla de Twig.
 
-        $test = 'Atrinium';
-
         return $this->render('default/index.html.twig', [
-            'prueba' => $test
+            'companies' => self::COMPANIES
         ]);
     }
 }
