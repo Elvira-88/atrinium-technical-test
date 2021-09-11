@@ -6,20 +6,16 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
- /**
- * @Route("/api", name="api")
- */
-
-class ApiController extends AbstractController
+class ApiCompaniesController extends AbstractController
 {
     /**
-     * @Route("/", name="api")
+     * @Route("/api/companies", name="api_companies")
      */
     public function index(): Response
     {
         return $this->json([
             'message' => 'Welcome to your new controller!',
-            'path' => 'src/Controller/ApiController.php',
+            'path' => 'src/Controller/ApiCompaniesController.php',
         ]);
     }
 }
