@@ -19,7 +19,7 @@ class CompanyRepository extends ServiceEntityRepository
         parent::__construct($registry, Company::class);
     }
 
-    public function findByTerm(string $term)
+    public function findByTermStrict(string $term)
     {
         $queryBuilder = $this->createQueryBuilder('c');
         $queryBuilder->where('c.name = :term');
@@ -30,6 +30,21 @@ class CompanyRepository extends ServiceEntityRepository
         $query = $queryBuilder->getQuery();
 
         return $query->getResult();
+    }
+
+    public function findByTerm(string $term)
+    {
+        $queryBuilder = $this->createQueryBuilder('c');
+
+        $queryBuilder->where(
+            $queryBuilder->expr()->orX(
+                $queryBuilder->expr()->like('c.name' , ':term'),
+            )
+        )
+        ->setParameter('term', '%'.$term.'%')
+        ->orderBy('c.id', 'ASC');
+
+        return $queryBuilder->getQuery()->getResult();
     }
 
     // /**
