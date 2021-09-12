@@ -6,6 +6,7 @@ namespace App\Controller;
 
 use App\Repository\CompanyRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -21,8 +22,16 @@ class DefaultController extends AbstractController
      * El primer parámetro de Route es la URL a la que queremos asociar la acción.
      * El segundo parámetro de Route es el nombre que queremos dar a la ruta.
      */ 
-    public function index(CompanyRepository $companyRepository): Response
+    public function index(Request $request, CompanyRepository $companyRepository): Response
     {
+        if($request->query->has('term')) {
+            $companies = $companyRepository->findByTerm($request->query->get('term'));
+
+            return $this->render('default/index.html.twig', [
+                'companies' => $companies
+            ]);
+        }
+
         // Una acción siempre debe devolver una respesta.
         // Por defecto deberá ser un objeto de la clase,
         // Symfony\Component\HttpFoundation\Response

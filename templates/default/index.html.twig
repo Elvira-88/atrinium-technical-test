@@ -1,10 +1,18 @@
 {% extends 'base.html.twig' %}
 
+{% block header %}
+    {{ include('partial/header.html.twig') }}
+{% endblock %}
+
 {% block body %}
 
 <h1>Empresas</h1>
 
-{{ include('partial/header.html.twig') }}
+  <form method="GET">
+        <input type="text" name="term" />
+        <input type="submit" value="Buscar" />
+    </form>
+    <hr/>
 
 <table>
     <thead>

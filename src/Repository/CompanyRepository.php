@@ -19,6 +19,19 @@ class CompanyRepository extends ServiceEntityRepository
         parent::__construct($registry, Company::class);
     }
 
+    public function findByTerm(string $term)
+    {
+        $queryBuilder = $this->createQueryBuilder('c');
+        $queryBuilder->where('c.name = :term');
+
+        $queryBuilder->setParameter('term', $term);
+        $queryBuilder->orderBy('c.id', 'ASC');
+
+        $query = $queryBuilder->getQuery();
+
+        return $query->getResult();
+    }
+
     // /**
     //  * @return Company[] Returns an array of Company objects
     //  */
