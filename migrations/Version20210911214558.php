@@ -14,7 +14,7 @@ final class Version20210911214558 extends AbstractMigration
 {
     public function getDescription(): string
     {
-        return '';
+        return 'Crear la primera versión de la tabla para la entidad Company';
     }
 
     public function up(Schema $schema): void
