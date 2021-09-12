@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\CompanyRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -19,12 +20,9 @@ class ApiCompaniesController extends AbstractController
      *      methods={"GET"}
      * )
      */
-    public function index(): Response
+    public function index(CompanyRepository $companyRepository): Response
     {
-        return $this->json([
-            'method' => 'CGET',
-            'description' => 'Devuelve el listado del recurso empresas.',
-        ]);
+        return $this->json($companyRepository->findAll());
     }
 
     /**
