@@ -30,12 +30,13 @@ class Company
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $sector;
+    private $phone;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\ManyToOne(targetEntity=Sector::class, inversedBy="companies")
+     * @ORM\JoinColumn(nullable=false)
      */
-    private $phone;
+    private $sector;
 
     public function getId(): ?int
     {
@@ -65,19 +66,7 @@ class Company
 
         return $this;
     }
-
-    public function getSector(): ?string
-    {
-        return $this->sector;
-    }
-
-    public function setSector(string $sector): self
-    {
-        $this->sector = $sector;
-
-        return $this;
-    }
-
+   
     public function getPhone(): ?string
     {
         return $this->phone;
@@ -86,6 +75,18 @@ class Company
     public function setPhone(string $phone): self
     {
         $this->phone = $phone;
+
+        return $this;
+    }
+
+    public function getSector(): ?Sector
+    {
+        return $this->sector;
+    }
+
+    public function setSector(?Sector $sector): self
+    {
+        $this->sector = $sector;
 
         return $this;
     }

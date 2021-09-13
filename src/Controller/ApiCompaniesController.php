@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Company;
 use App\Repository\CompanyRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -32,8 +33,11 @@ class ApiCompaniesController extends AbstractController
      *      methods={"POST"}
      * )
      */
-    public function add(): Response
-    {
+    public function add(): Response {
+
+        $company = new Company();
+        $company->setName('hola');
+
         return $this->json([
             'method' => 'POST',
             'description' => 'Crea un recurso empresa.',
