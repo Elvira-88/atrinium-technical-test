@@ -14,6 +14,9 @@
     </form>
     <hr/>
 
+    <h4>Para añadir una nueva empresa<button>Click aquí</button></h4>
+
+
 <table>
     <thead>
         <tr>
@@ -30,6 +33,8 @@
             <td>{{ company.phone }}</td>
             <td>{{ company.email }}</td>
             <td>{{ company.sector }}</td>
+            <td><button>Editar</button></td>
+            <td><button>Eliminar</button></td>
         </tr>
         {% endfor %}
     </tbody>
