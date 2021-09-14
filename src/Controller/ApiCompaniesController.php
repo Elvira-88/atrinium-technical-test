@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Company;
 use App\Repository\CompanyRepository;
 use App\Repository\SectorRepository;
+use App\Service\CompanyNormalize;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -25,15 +26,30 @@ class ApiCompaniesController extends AbstractController
      *      methods={"GET"}
      * )
      */
-    public function index(Request $request, CompanyRepository $companyRepository): Response
+    public function index(Request $request, CompanyRepository $companyRepository, CompanyNormalize $companyNormalize): Response
     {
         if ($request->query->has('term')) {
-            $companies = $companyRepository->findByTerm($request->query->get('term'));
+            $result = $companyRepository->findByTerm($request->query->get('term'));
 
-            return $this->json($companies);
+            $data = [];
+
+            foreach($result as $company) {
+                $data[] = $companyNormalize->companyNormalize($company);   
+            }
+
+            return $this->json($data);
         }
 
-            return $this->json($companyRepository->findAll());
+        $result = $companyRepository->findAll();
+
+        $data = [];
+
+        foreach($result as $company) {
+            $data[] = $companyNormalize->companyNormalize($company);   
+        }
+
+        return $this->json($data);
+
     }
 
     /**
@@ -46,12 +62,16 @@ class ApiCompaniesController extends AbstractController
      *      }
      * )
      */
-    public function show(int $id, CompanyRepository $companyRepository): Response
+    public function show(
+        int $id, 
+        CompanyRepository $companyRepository,
+        CompanyNormalize $companyNormalize
+        ): Response
     
     {
         $data = $companyRepository->find($id);
 
-        return $this->json($data);
+        return $this->json($companyNormalize->companyNormalize($data));
     }
 
     /**
@@ -65,12 +85,13 @@ class ApiCompaniesController extends AbstractController
         Request $request,
         EntityManagerInterface $entityManager,
         ValidatorInterface $validator,
-        SectorRepository $sectorRepository           
+        SectorRepository $sectorRepository,
+        CompanyNormalize $companyNormalize
     ): Response {
 
         $data = $request->request;
 
-        $sector = $sectorRepository->find($data->get('sectort_id'));
+        $sector = $sectorRepository->find($data->get('sector_id'));
 
         $company = new Company();
 
@@ -102,7 +123,7 @@ class ApiCompaniesController extends AbstractController
         $entityManager->flush();
 
         return $this->json(
-            $company,
+            $companyNormalize->companyNormalize($company),
             Response::HTTP_CREATED,
             [
                 'Location' => $this->generateUrl(
