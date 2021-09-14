@@ -5,9 +5,11 @@ namespace App\Entity;
 use App\Repository\CompanyRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=CompanyRepository::class)
+ * @UniqueEntity("email")
  */
 class Company
 {
@@ -26,7 +28,7 @@ class Company
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, unique=true)
      * 
      * @Assert\Email(
      *      message = "El correo {{ value }} no tiene un formato válido."

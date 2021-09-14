@@ -54,8 +54,6 @@ class ApiCompaniesController extends AbstractController
         return $this->json($data);
     }
 
-
-
     /**
      * @Route(
      *      "", 
@@ -67,9 +65,8 @@ class ApiCompaniesController extends AbstractController
         Request $request,
         EntityManagerInterface $entityManager,
         ValidatorInterface $validator,
-        SectorRepository $sectorRepository,
-
-        ): Response {
+        SectorRepository $sectorRepository           
+    ): Response {
 
         $data = $request->request;
 
