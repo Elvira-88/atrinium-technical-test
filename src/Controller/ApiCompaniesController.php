@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
- * @Route("/api/companies", name="api_companies_")
+ * @Route("/api/companies", name="api_companies")
  */
 
 class ApiCompaniesController extends AbstractController
@@ -28,6 +28,7 @@ class ApiCompaniesController extends AbstractController
      */
     public function index(Request $request, CompanyRepository $companyRepository, CompanyNormalize $companyNormalize): Response
     {
+        
         if ($request->query->has('term')) {
             $result = $companyRepository->findByTerm($request->query->get('term'));
 
@@ -40,15 +41,21 @@ class ApiCompaniesController extends AbstractController
             return $this->json($data);
         }
 
-        $result = $companyRepository->findAll();
+        $companies = $companyRepository->findAll();
 
-        $data = [];
+        return $this->render('api_companies/index.html.twig', [
+            'companies' => $companies
+        ]);
 
-        foreach($result as $company) {
-            $data[] = $companyNormalize->companyNormalize($company);   
-        }
+        // $result = $companyRepository->findAll();
 
-        return $this->json($data);
+        // $data = [];
+
+        // foreach($result as $company) {
+        //     $data[] = $companyNormalize->companyNormalize($company);   
+        // }
+
+        // return $this->json($data);
 
     }
 

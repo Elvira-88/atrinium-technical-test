@@ -19,6 +19,34 @@ class SectorRepository extends ServiceEntityRepository
         parent::__construct($registry, Sector::class);
     }
 
+    public function findByTermStrict(string $term)
+    {
+        $queryBuilder = $this->createQueryBuilder('c');
+        $queryBuilder->where('c.name = :term');
+
+        $queryBuilder->setParameter('term', $term);
+        $queryBuilder->orderBy('c.id', 'ASC');
+
+        $query = $queryBuilder->getQuery();
+
+        return $query->getResult();
+    }
+
+    public function findByTerm(string $term)
+    {
+        $queryBuilder = $this->createQueryBuilder('c');
+
+        $queryBuilder->where(
+            $queryBuilder->expr()->orX(
+                $queryBuilder->expr()->like('c.name' , ':term'),
+            )
+        )
+        ->setParameter('term', '%'.$term.'%')
+        ->orderBy('c.id', 'ASC');
+
+        return $queryBuilder->getQuery()->getResult();
+    }
+
     // /**
     //  * @return Sector[] Returns an array of Sector objects
     //  */

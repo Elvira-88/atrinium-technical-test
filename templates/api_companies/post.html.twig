@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello EmpresaController!{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+
+<div class="example-wrapper">
+    <h1>Empresa</h1>
+
+    <form action="/api/companies" method="POST">
+        <div>
+            <label for="nombre">Nombre:</label><br>
+            <input type="text" name="nombre" id="nombre">
+        </div>
+        <div>
+            <label for="email">Email:</label><br>
+            <input type="text" name="email" id="email">
+        </div>
+        <div>
+            <label for="telefono">Teléfono:</label><br>
+            <input type="text" name="telefono" id="telefono">
+        </div>
+        <div>
+            <select class="form-control" id="sector" name= "sector">
+                {% for sector in sectors %}
+                    <option value="{{sector.id}} {{sector.name}}" >{{sector.name}}</option>
+                {% endfor %}
+        </div>
+</select>
+        </div>
+        <div>
+            <button type="submit">Enviar</button>
+            <a href="/api/companies"><button type="button">Cancelar</button></a>
+        </div>
+    </form>
+
+</div>
+{% endblock %}
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello EmpresaController!{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+
+<div class="example-wrapper">
